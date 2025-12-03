@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Navbar from "../Navbar/page";
 
 const API_BASE = "https://brimag-assisment.onrender.com";
+export const dynamic = "force-dynamic";
 
 interface Order {
   id: number;
