@@ -1,36 +1,13 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+My design approach for this assignment was to keep everything simple, modular and clear. I first identified the basic features needed like adding orders, listing all orders, showing the details of a single order, and updating order status. Based on that, I structured my backend API and then built the frontend screens to talk to those endpoints. I wanted the system to feel similar to what a small factory or warehouse could actually use day-to-day.
 
-## Getting Started
+For the backend, I used Express.js because it is lightweight and flexible. I created separate routes for adding a new order, fetching all orders, fetching by id, and updating the status. I connected it to a MySQL database since relational tables make more sense for order records. I also parameterized all SQL queries to avoid injection issues. I kept each function short and readable, just focusing on the logic needed for each request.
 
-First, run the development server:
+On the frontend, I used Next.js and TailwindCSS. I structured each section as its own page component — Add Order, Order List, Single Order and Update Order. I made sure the UI was minimal and clean, with a common navbar for navigation. In the update page, I also used a modal to highlight the selected order and blur the background, just to make the interaction smoother.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The biggest challenge was connecting the UI to the backend correctly, especially while switching ports, handling CORS and adjusting route names. I also had to rewrite some fetch logic so React doesn’t complain about state updates inside effects. Another challenge was displaying database results in an organized table format.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+If I had more time, I would add login roles, order history, I would also include status-based color badges and better error handling.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+For scaling this system in a real manufacturing company, I would move the database to a managed cloud server, add load balancers,split services into micro-functional modules, and implement role-based authorization. I’d also add caching for frequent reads, proper monitoring logs, and a message-queue system if order traffic becomes heavy. In large factories, I would even integrate live dashboards and warehouse sensors for real-time updates.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Overall, I tried to keep this system straightforward, but with a structure that can grow in the future.
