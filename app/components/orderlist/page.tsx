@@ -73,7 +73,7 @@ export default function OrderListPage() {
                   <tr
                     key={o.id}
                     onClick={() =>
-                      router.push(`/components/orderdetail?id=${o.id}`)
+                      router.push(`/components/orderdetail/${o.id}`)
                     }
                     className="border-t border-zinc-800 hover:bg-zinc-900/70 cursor-pointer"
                   >

@@ -1,11 +1,6 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import Navbar from "../Navbar/page";
+import Navbar from "../../Navbar/page";
 
 const API_BASE = "https://brimag-assisment.onrender.com";
-export const dynamic = "force-dynamic";
 
 interface Order {
   id: number;
@@ -15,36 +10,35 @@ interface Order {
   CREATEDAT: string;
 }
 
-export default function OrderDetailPage() {
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
-  const [order, setOrder] = useState<Order | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
+export const dynamic = "force-dynamic";
 
-  useEffect(() => {
-    if (!id) {
-      setMessage("No order id provided");
-      setLoading(false);
-      return;
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function OrderDetailPage({ params }: Props) {
+  const { id } = await params;
+
+  let order: Order | null = null;
+  let message = "";
+
+  try {
+    const res = await fetch(`${API_BASE}/orders/${id}`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      message = "Order not found";
+    } else {
+      const data = await res.json();
+      const row = Array.isArray(data) ? data[0] : data;
+      order = row ?? null;
+      if (!order) message = "Order not found";
     }
-
-    const fetchOrder = async () => {
-      try {
-        const res = await fetch(`${API_BASE}/orders/${id}`);
-        if (!res.ok) throw new Error("Not found");
-        const data = await res.json();
-        const row = Array.isArray(data) ? data[0] : data;
-        setOrder(row);
-      } catch (err) {
-        console.error(err);
-        setMessage("Order not found");
-      }
-      setLoading(false);
-    };
-
-    fetchOrder();
-  }, [id]);
+  } catch (err) {
+    console.error(err);
+    message = "Order not found";
+  }
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
@@ -52,11 +46,9 @@ export default function OrderDetailPage() {
       <main className="px-4 py-10 max-w-xl mx-auto">
         <h2 className="text-xl font-semibold text-center mb-4">Order Detail</h2>
 
-        {loading ? (
-          <p className="text-sm text-zinc-400 text-center">Loading...</p>
-        ) : message ? (
+        {message || !order ? (
           <p className="text-sm text-zinc-400 text-center">{message}</p>
-        ) : order ? (
+        ) : (
           <div className="bg-zinc-900/70 border border-zinc-800 rounded-2xl p-5 text-sm space-y-3 shadow-xl">
             <div className="flex justify-between">
               <span className="text-zinc-400">ID</span>
@@ -81,7 +73,7 @@ export default function OrderDetailPage() {
               </span>
             </div>
           </div>
-        ) : null}
+        )}
       </main>
     </div>
   );
