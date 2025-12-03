@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import Navbar from "../Navbar/page";
 
-const API_BASE = "http://localhost:4000";
+const API_BASE = "https://brimag-assisment.onrender.com";
 
 interface Order {
   id: number;

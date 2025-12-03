@@ -4,7 +4,7 @@ import { useState } from "react";
 import Navbar from "../Navbar/page";
 import { useRouter } from "next/navigation";
 
-const API_BASE = "http://localhost:4000";
+const API_BASE = "https://brimag-assisment.onrender.com";
 
 export default function AddOrderPage() {
   const [productname, setProductname] = useState("");
